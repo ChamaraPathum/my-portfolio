@@ -2,7 +2,14 @@
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { PORTFOLIO_DATA } from "@/lib/data";
-import { Send, Terminal, GitBranch, MapPin, Calendar, Building2 } from "lucide-react";
+import {
+  Send,
+  Terminal,
+  GitBranch,
+  MapPin,
+  Calendar,
+  Building2,
+} from "lucide-react";
 
 /* ─────────────────────────────────────────
    MY JOURNEY — terminal git log style
@@ -25,7 +32,29 @@ export function Experience() {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
             My Journey
           </h2>
-          <div className="h-1 w-20 bg-brand-violet rounded-full" />
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">
+              <span>status: loading...</span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1.8 }}
+                className="text-[#28C840]"
+              >
+                100%
+              </motion.span>
+            </div>
+            <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden relative">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
+                className="h-full bg-[#28C840] rounded-full shadow-[0_0_12px_rgba(40,200,64,0.6)]"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Terminal Window */}
@@ -55,8 +84,14 @@ export function Experience() {
           <div className="bg-[#0d1117] p-6 font-mono text-sm">
             {/* git log header */}
             <div className="text-[#8b949e] text-xs mb-6 space-y-0.5">
-              <p><span className="text-[#6E9FFF]">Author:</span> Chamara Pathum &lt;chamara@dev.lk&gt;</p>
-              <p><span className="text-[#6E9FFF]">Branch:</span> <span className="text-[#28C840]">main</span></p>
+              <p>
+                <span className="text-[#6E9FFF]">Author:</span> Chamara Pathum
+                &lt;chamara@dev.lk&gt;
+              </p>
+              <p>
+                <span className="text-[#6E9FFF]">Branch:</span>{" "}
+                <span className="text-[#28C840]">main</span>
+              </p>
             </div>
 
             {/* Commits */}
@@ -83,7 +118,9 @@ export function Experience() {
                     </div>
 
                     {/* Commit content */}
-                    <div className={`pb-8 flex-1 ${i === PORTFOLIO_DATA.experience.length - 1 ? "pb-2" : ""}`}>
+                    <div
+                      className={`pb-8 flex-1 ${i === PORTFOLIO_DATA.experience.length - 1 ? "pb-2" : ""}`}
+                    >
                       {/* Commit hash + date */}
                       <div className="flex items-center gap-3 mb-2 flex-wrap">
                         <span className="text-[#FEBC2E] text-xs">
@@ -99,7 +136,9 @@ export function Experience() {
                       <div className="bg-[#161b22] border border-white/5 rounded-xl p-5 hover:border-[#28C840]/20 transition-colors duration-300">
                         <div className="flex items-start justify-between gap-4 mb-3">
                           <div>
-                            <h3 className="text-white font-bold text-base">{exp.role}</h3>
+                            <h3 className="text-white font-bold text-base">
+                              {exp.role}
+                            </h3>
                             <div className="flex items-center gap-1.5 text-[#8b949e] text-xs mt-1">
                               <Building2 size={11} />
                               <span>{exp.company}</span>
@@ -109,14 +148,20 @@ export function Experience() {
                             </div>
                           </div>
                           <span className="shrink-0 px-2 py-0.5 rounded text-[10px] font-mono bg-[#28C840]/10 text-[#28C840] border border-[#28C840]/20">
-                            {i === 0 ? "HEAD" : `v${PORTFOLIO_DATA.experience.length - i}.0`}
+                            {i === 0
+                              ? "HEAD"
+                              : `v${PORTFOLIO_DATA.experience.length - i}.0`}
                           </span>
                         </div>
 
                         {/* Description as git commit body */}
                         <div className="border-l-2 border-[#28C840]/30 pl-3">
-                          <p className="text-[#28C840] text-[10px] mb-1">/** commit message */</p>
-                          <p className="text-[#8b949e] text-xs leading-5">{exp.description}</p>
+                          <p className="text-[#28C840] text-[10px] mb-1">
+                            /** commit message */
+                          </p>
+                          <p className="text-[#8b949e] text-xs leading-5">
+                            {exp.description}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -166,7 +211,29 @@ export function Contact() {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
             Let&apos;s Talk
           </h2>
-          <div className="h-1 w-20 bg-brand-violet rounded-full" />
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">
+              <span>status: loading...</span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1.8 }}
+                className="text-[#28C840]"
+              >
+                100%
+              </motion.span>
+            </div>
+            <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden relative">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
+                className="h-full bg-[#28C840] rounded-full shadow-[0_0_12px_rgba(40,200,64,0.6)]"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Terminal Window */}
@@ -199,8 +266,16 @@ export function Contact() {
                 className="space-y-2"
               >
                 <p className="text-[#28C840]">✓ Message sent successfully!</p>
-                <p className="text-[#8b949e] text-xs">Status: <span className="text-[#FEBC2E]">200 OK</span></p>
-                <p className="text-[#8b949e] text-xs">Response: <span className="text-[#FF7B72]">&quot;Thanks for reaching out! I&apos;ll be in touch soon.&quot;</span></p>
+                <p className="text-[#8b949e] text-xs">
+                  Status: <span className="text-[#FEBC2E]">200 OK</span>
+                </p>
+                <p className="text-[#8b949e] text-xs">
+                  Response:{" "}
+                  <span className="text-[#FF7B72]">
+                    &quot;Thanks for reaching out! I&apos;ll be in touch
+                    soon.&quot;
+                  </span>
+                </p>
                 <div className="flex items-center gap-2 mt-4">
                   <span className="text-[#28C840]">›</span>
                   <span className="w-[6px] h-3 bg-[#28C840] animate-[blink_1s_step-end_infinite] inline-block" />
@@ -300,7 +375,10 @@ export function Contact() {
                                transition-all duration-200 group"
                   >
                     <span>send_message()</span>
-                    <Send size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                    <Send
+                      size={14}
+                      className="group-hover:translate-x-0.5 transition-transform"
+                    />
                   </button>
                 </div>
               </form>
@@ -335,7 +413,9 @@ function TerminalField({
       }`}
     >
       <span className="text-[#6E9FFF] text-xs shrink-0">const</span>
-      <span style={{ color: varColor }} className="text-xs shrink-0">{varName}</span>
+      <span style={{ color: varColor }} className="text-xs shrink-0">
+        {varName}
+      </span>
       <span className="text-white text-xs shrink-0">=</span>
       {children}
       <span className="text-white text-xs shrink-0">;</span>

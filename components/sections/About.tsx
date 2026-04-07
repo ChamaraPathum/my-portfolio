@@ -5,7 +5,12 @@ import { useRef, useState, useEffect } from "react";
 import { PORTFOLIO_DATA } from "@/lib/data";
 
 // Hook: types out a string character by character after a delay
-function useTypewriter(text: string, speed = 30, startDelay = 0, enabled = false) {
+function useTypewriter(
+  text: string,
+  speed = 30,
+  startDelay = 0,
+  enabled = false,
+) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
 
@@ -114,15 +119,27 @@ export default function About() {
   // Stats lines
   const statTimes = stats.map((stat, i) => {
     const statText = `${stat.label.toLowerCase().replace(/\s+/g, "_")} = ${stat.value};`;
-    const prevDur = i === 0 ? bioDur : stats.slice(0, i).reduce((acc, s) => {
-      return acc + (`${s.label.toLowerCase().replace(/\s+/g, "_")} = ${s.value};`.length * LINE_SPEED + LINE_GAP);
-    }, LINE_GAP);
+    const prevDur =
+      i === 0
+        ? bioDur
+        : stats.slice(0, i).reduce((acc, s) => {
+            return (
+              acc +
+              (`${s.label.toLowerCase().replace(/\s+/g, "_")} = ${s.value};`
+                .length *
+                LINE_SPEED +
+                LINE_GAP)
+            );
+          }, LINE_GAP);
     return { stat, text: statText, t: t2 + prevDur };
   });
 
-  const lastStatEnd = statTimes.length > 0
-    ? statTimes[statTimes.length - 1].t + statTimes[statTimes.length - 1].text.length * LINE_SPEED + LINE_GAP
-    : t2 + bioDur;
+  const lastStatEnd =
+    statTimes.length > 0
+      ? statTimes[statTimes.length - 1].t +
+        statTimes[statTimes.length - 1].text.length * LINE_SPEED +
+        LINE_GAP
+      : t2 + bioDur;
 
   const tSocials = lastStatEnd;
 
@@ -139,7 +156,29 @@ export default function About() {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
             About Me{" "}
           </h2>
-          <div className="h-1 w-20 bg-brand-violet rounded-full" />
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">
+              <span>status: loading...</span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1.8 }}
+                className="text-[#28C840]"
+              >
+                100%
+              </motion.span>
+            </div>
+            <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden relative">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
+                className="h-full bg-[#28C840] rounded-full shadow-[0_0_12px_rgba(40,200,64,0.6)]"
+              />
+            </div>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -152,7 +191,7 @@ export default function About() {
             className="relative"
           >
             <div className="aspect-square relative max-w-md mx-auto rounded-2xl overflow-hidden card-3d p-2 group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-violet/20 to-brand-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+              <div className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
               <div className="w-full h-full relative rounded-xl overflow-hidden">
                 <Image
                   src="/my-image.jpeg"
@@ -188,7 +227,6 @@ export default function About() {
 
               {/* Terminal Body */}
               <div className="bg-[#0d1117] p-6 font-mono text-sm leading-7 min-h-[320px]">
-
                 {/* Line 1: const developer = "Name"; */}
                 <TypewriterLine
                   text={`const developer = "${name}";`}
@@ -198,7 +236,9 @@ export default function About() {
                   renderFn={(typed, done) => (
                     <p>
                       <span className="text-[#6E9FFF]">
-                        {typed.startsWith("const") ? "const" : typed.slice(0, Math.min(typed.length, 5))}
+                        {typed.startsWith("const")
+                          ? "const"
+                          : typed.slice(0, Math.min(typed.length, 5))}
                       </span>
                       {typed.length > 5 && (
                         <>
@@ -209,19 +249,29 @@ export default function About() {
                         </>
                       )}
                       {typed.length > 15 && (
-                        <span className="text-white">{typed.slice(15, Math.min(typed.length, 18))}</span>
+                        <span className="text-white">
+                          {typed.slice(15, Math.min(typed.length, 18))}
+                        </span>
                       )}
                       {typed.length > 18 && (
-                        <span className="text-[#FF7B72]">{typed.slice(18, typed.length - (done ? 1 : 0))}</span>
+                        <span className="text-[#FF7B72]">
+                          {typed.slice(18, typed.length - (done ? 1 : 0))}
+                        </span>
                       )}
                       {done && <span className="text-white">;</span>}
-                      {!done && <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />}
+                      {!done && (
+                        <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
+                      )}
                     </p>
                   )}
                 />
 
                 {/* Comment block: bio */}
-                <TerminalLine delay={t1} isInView={isInView} className="mt-4 border-l-2 border-[#28C840]/40 pl-4">
+                <TerminalLine
+                  delay={t1}
+                  isInView={isInView}
+                  className="mt-4 border-l-2 border-[#28C840]/40 pl-4"
+                >
                   <TypewriterLine
                     text="/** About me */"
                     delay={t1}
@@ -230,7 +280,9 @@ export default function About() {
                     renderFn={(typed, done) => (
                       <p className="text-[#28C840] text-xs mb-1">
                         {typed}
-                        {!done && <span className="inline-block w-[2px] h-[0.8em] bg-[#28C840] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />}
+                        {!done && (
+                          <span className="inline-block w-[2px] h-[0.8em] bg-[#28C840] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
+                        )}
                       </p>
                     )}
                   />
@@ -242,7 +294,9 @@ export default function About() {
                     renderFn={(typed, done) => (
                       <p className="text-[#8b949e] text-xs leading-5">
                         {typed}
-                        {!done && typed.length > 0 && <span className="inline-block w-[2px] h-[0.8em] bg-[#8b949e] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />}
+                        {!done && typed.length > 0 && (
+                          <span className="inline-block w-[2px] h-[0.8em] bg-[#8b949e] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
+                        )}
                       </p>
                     )}
                   />
@@ -258,16 +312,39 @@ export default function About() {
                       speed={LINE_SPEED}
                       isInView={isInView}
                       renderFn={(typed, done) => {
-                        const varName = stat.label.toLowerCase().replace(/\s+/g, "_");
+                        const varName = stat.label
+                          .toLowerCase()
+                          .replace(/\s+/g, "_");
                         const prefix = `const ${varName} = `;
                         return (
                           <p>
-                            {typed.length > 0 && <span className="text-[#6E9FFF]">const</span>}
-                            {typed.length > 6 && <span className="text-[#79D8A4]"> {typed.slice(6, Math.min(typed.length, prefix.length - 3))}</span>}
-                            {typed.length >= prefix.length - 2 && <span className="text-white"> = </span>}
-                            {typed.length > prefix.length && <span className="text-[#FEBC2E]">{typed.slice(prefix.length, typed.length - (done ? 1 : 0))}</span>}
+                            {typed.length > 0 && (
+                              <span className="text-[#6E9FFF]">const</span>
+                            )}
+                            {typed.length > 6 && (
+                              <span className="text-[#79D8A4]">
+                                {" "}
+                                {typed.slice(
+                                  6,
+                                  Math.min(typed.length, prefix.length - 3),
+                                )}
+                              </span>
+                            )}
+                            {typed.length >= prefix.length - 2 && (
+                              <span className="text-white"> = </span>
+                            )}
+                            {typed.length > prefix.length && (
+                              <span className="text-[#FEBC2E]">
+                                {typed.slice(
+                                  prefix.length,
+                                  typed.length - (done ? 1 : 0),
+                                )}
+                              </span>
+                            )}
                             {done && <span className="text-white">;</span>}
-                            {!done && typed.length > 0 && <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />}
+                            {!done && typed.length > 0 && (
+                              <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
+                            )}
                           </p>
                         );
                       }}
@@ -289,7 +366,11 @@ export default function About() {
                       <TypewriterLine
                         key={social.id}
                         text={`$ open ${urlText}`}
-                        delay={tSocials + i * ((`$ open ${urlText}`).length * LINE_SPEED + LINE_GAP)}
+                        delay={
+                          tSocials +
+                          i *
+                            (`$ open ${urlText}`.length * LINE_SPEED + LINE_GAP)
+                        }
                         speed={LINE_SPEED}
                         isInView={isInView}
                         renderFn={(typed, done) => (
@@ -304,7 +385,9 @@ export default function About() {
                               <Icon size={14} />
                               <span className="text-xs group-hover:text-[#28C840] transition-colors">
                                 {typed.slice(2)}
-                                {!done && <span className="inline-block w-[2px] h-[0.8em] bg-[#8b949e] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />}
+                                {!done && (
+                                  <span className="inline-block w-[2px] h-[0.8em] bg-[#8b949e] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
+                                )}
                               </span>
                             </span>
                           </a>

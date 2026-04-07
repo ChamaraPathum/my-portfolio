@@ -2,7 +2,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ExternalLink, Folder, FolderOpen, FileCode2, ChevronRight } from "lucide-react";
+import {
+  ExternalLink,
+  Folder,
+  FolderOpen,
+  FileCode2,
+  ChevronRight,
+} from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 import { PORTFOLIO_DATA } from "@/lib/data";
 
@@ -12,7 +18,9 @@ export default function Projects() {
     ...Array.from(new Set(PORTFOLIO_DATA.projects.map((p) => p.category))),
   ];
   const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedProject, setSelectedProject] = useState(PORTFOLIO_DATA.projects[0]);
+  const [selectedProject, setSelectedProject] = useState(
+    PORTFOLIO_DATA.projects[0],
+  );
 
   const filteredProjects = PORTFOLIO_DATA.projects.filter(
     (project) => activeFilter === "All" || project.category === activeFilter,
@@ -32,7 +40,29 @@ export default function Projects() {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
             Featured Work
           </h2>
-          <div className="h-1 w-full bg-gradient-to-r from-[#83082b] to-[#994708] rounded-full" />
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">
+              <span>status: loading...</span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1.8 }}
+                className="text-[#28C840]"
+              >
+                100%
+              </motion.span>
+            </div>
+            <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden relative">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
+                className="h-full bg-[#28C840] rounded-full shadow-[0_0_12px_rgba(40,200,64,0.6)]"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Terminal Window */}
@@ -73,7 +103,6 @@ export default function Projects() {
 
           {/* Terminal Body: 2-pane layout */}
           <div className="bg-[#0d1117] flex min-h-[520px]">
-
             {/* LEFT PANE: file explorer */}
             <div className="w-64 shrink-0 border-r border-white/5 p-4 font-mono text-xs overflow-y-auto">
               {/* Command prompt */}
@@ -95,10 +124,14 @@ export default function Projects() {
                 >
                   {/* Group projects by category for folder structure */}
                   {(activeFilter === "All"
-                    ? Array.from(new Set(PORTFOLIO_DATA.projects.map((p) => p.category)))
+                    ? Array.from(
+                        new Set(PORTFOLIO_DATA.projects.map((p) => p.category)),
+                      )
                     : [activeFilter]
                   ).map((cat) => {
-                    const catProjects = filteredProjects.filter((p) => p.category === cat);
+                    const catProjects = filteredProjects.filter(
+                      (p) => p.category === cat,
+                    );
                     if (catProjects.length === 0) return null;
                     return (
                       <div key={cat} className="mb-3">
@@ -108,7 +141,8 @@ export default function Projects() {
                         </div>
                         <div className="ml-4 space-y-1">
                           {catProjects.map((project) => {
-                            const isSelected = selectedProject.id === project.id;
+                            const isSelected =
+                              selectedProject.id === project.id;
                             return (
                               <button
                                 key={project.id}
@@ -121,9 +155,17 @@ export default function Projects() {
                               >
                                 <FileCode2 size={11} className="shrink-0" />
                                 <span className="truncate text-[10px]">
-                                  {project.title.toLowerCase().replace(/\s+/g, "-")}.tsx
+                                  {project.title
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}
+                                  .tsx
                                 </span>
-                                {isSelected && <ChevronRight size={10} className="ml-auto shrink-0" />}
+                                {isSelected && (
+                                  <ChevronRight
+                                    size={10}
+                                    className="ml-auto shrink-0"
+                                  />
+                                )}
                               </button>
                             );
                           })}
@@ -225,24 +267,30 @@ export default function Projects() {
 
                         <CodeLine num={2} indent={1}>
                           <span className="text-[#8b949e]">title</span>
-                          <span className="text-white">:{" "}</span>
-                          <span className="text-[#FF7B72]">&quot;{selectedProject.title}&quot;</span>
+                          <span className="text-white">: </span>
+                          <span className="text-[#FF7B72]">
+                            &quot;{selectedProject.title}&quot;
+                          </span>
                           <span className="text-white">,</span>
                         </CodeLine>
 
                         <CodeLine num={3} indent={1}>
                           <span className="text-[#8b949e]">category</span>
-                          <span className="text-white">:{" "}</span>
-                          <span className="text-[#FF7B72]">&quot;{selectedProject.category}&quot;</span>
+                          <span className="text-white">: </span>
+                          <span className="text-[#FF7B72]">
+                            &quot;{selectedProject.category}&quot;
+                          </span>
                           <span className="text-white">,</span>
                         </CodeLine>
 
                         <CodeLine num={4} indent={1}>
                           <span className="text-[#8b949e]">description</span>
-                          <span className="text-white">:{" "}</span>
+                          <span className="text-white">: </span>
                         </CodeLine>
                         <CodeLine num={5} indent={2}>
-                          <span className="text-[#28C840]">/* {selectedProject.description} */</span>
+                          <span className="text-[#28C840]">
+                            /* {selectedProject.description} */
+                          </span>
                         </CodeLine>
 
                         <CodeLine num={6} indent={1}>
@@ -252,30 +300,50 @@ export default function Projects() {
 
                         {selectedProject.tags.map((tag, i) => (
                           <CodeLine key={tag} num={7 + i} indent={2}>
-                            <span className="text-[#FEBC2E]">&quot;{tag}&quot;</span>
-                            {i < selectedProject.tags.length - 1 && <span className="text-white">,</span>}
+                            <span className="text-[#FEBC2E]">
+                              &quot;{tag}&quot;
+                            </span>
+                            {i < selectedProject.tags.length - 1 && (
+                              <span className="text-white">,</span>
+                            )}
                           </CodeLine>
                         ))}
 
-                        <CodeLine num={7 + selectedProject.tags.length} indent={1}>
+                        <CodeLine
+                          num={7 + selectedProject.tags.length}
+                          indent={1}
+                        >
                           <span className="text-white">],</span>
                         </CodeLine>
 
-                        <CodeLine num={8 + selectedProject.tags.length} indent={1}>
+                        <CodeLine
+                          num={8 + selectedProject.tags.length}
+                          indent={1}
+                        >
                           <span className="text-[#8b949e]">live</span>
-                          <span className="text-white">:{" "}</span>
-                          <span className="text-[#6E9FFF]">&quot;{selectedProject.liveUrl}&quot;</span>
+                          <span className="text-white">: </span>
+                          <span className="text-[#6E9FFF]">
+                            &quot;{selectedProject.liveUrl}&quot;
+                          </span>
                           <span className="text-white">,</span>
                         </CodeLine>
 
-                        <CodeLine num={9 + selectedProject.tags.length} indent={1}>
+                        <CodeLine
+                          num={9 + selectedProject.tags.length}
+                          indent={1}
+                        >
                           <span className="text-[#8b949e]">repo</span>
-                          <span className="text-white">:{" "}</span>
-                          <span className="text-[#6E9FFF]">&quot;{selectedProject.githubUrl}&quot;</span>
+                          <span className="text-white">: </span>
+                          <span className="text-[#6E9FFF]">
+                            &quot;{selectedProject.githubUrl}&quot;
+                          </span>
                           <span className="text-white">,</span>
                         </CodeLine>
 
-                        <CodeLine num={10 + selectedProject.tags.length} indent={0}>
+                        <CodeLine
+                          num={10 + selectedProject.tags.length}
+                          indent={0}
+                        >
                           <span className="text-white">{"}"}</span>
                         </CodeLine>
 
@@ -308,7 +376,9 @@ function CodeLine({
 }) {
   return (
     <div className="flex items-start gap-4">
-      <span className="text-[#3d3d3d] w-5 shrink-0 text-right select-none">{num}</span>
+      <span className="text-[#3d3d3d] w-5 shrink-0 text-right select-none">
+        {num}
+      </span>
       <span style={{ paddingLeft: `${indent * 16}px` }}>{children}</span>
     </div>
   );

@@ -9,7 +9,9 @@ export default function Skills() {
   const terminalRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(terminalRef, { once: true, margin: "-80px" });
 
-  const activeGroup = PORTFOLIO_DATA.skills.find((s) => s.category === activeTab);
+  const activeGroup = PORTFOLIO_DATA.skills.find(
+    (s) => s.category === activeTab,
+  );
 
   function handleTabChange(cat: string) {
     setPrevTab(activeTab);
@@ -30,7 +32,29 @@ export default function Skills() {
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
             My Skills
           </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-[#83082b] to-[#994708] rounded-full" />
+          <div className="mt-6 flex flex-col gap-2">
+            <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">
+              <span>status: loading...</span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1.8 }}
+                className="text-[#28C840]"
+              >
+                100%
+              </motion.span>
+            </div>
+            <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden relative">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
+                className="h-full bg-[#28C840] rounded-full shadow-[0_0_12px_rgba(40,200,64,0.6)]"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Terminal Window */}
@@ -85,7 +109,9 @@ export default function Skills() {
               <span className="text-[#28C840]">$</span>
               <span className="text-[#6E9FFF]">ls</span>
               <span className="text-white">-la</span>
-              <span className="text-[#FEBC2E]">./skills/{activeTab.toLowerCase().replace(/\s+/g, "-")}</span>
+              <span className="text-[#FEBC2E]">
+                ./skills/{activeTab.toLowerCase().replace(/\s+/g, "-")}
+              </span>
             </div>
 
             <AnimatePresence mode="wait">
@@ -100,7 +126,8 @@ export default function Skills() {
                 {/* object header */}
                 <p className="text-[#8b949e] text-xs mb-2">
                   <span className="text-[#28C840]">// </span>
-                  {activeGroup?.items.length} skills found in <span className="text-[#FF7B72]">{activeTab}</span>
+                  {activeGroup?.items.length} skills found in{" "}
+                  <span className="text-[#FF7B72]">{activeTab}</span>
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-x-10 gap-y-6">
@@ -174,11 +201,7 @@ function SkillRow({
   if (!visible) return <div className="h-10" />;
 
   const levelColor =
-    skill.level >= 85
-      ? "#28C840"
-      : skill.level >= 70
-      ? "#FEBC2E"
-      : "#FF7B72";
+    skill.level >= 85 ? "#28C840" : skill.level >= 70 ? "#FEBC2E" : "#FF7B72";
 
   const barBlocks = Math.round((skill.level / 100) * 20);
   const emptyBlocks = 20 - barBlocks;
