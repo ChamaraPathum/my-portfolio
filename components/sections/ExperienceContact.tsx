@@ -9,7 +9,10 @@ import {
   MapPin,
   Calendar,
   Building2,
+  CheckCircle,
 } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import { log } from "console";
 
 /* ─────────────────────────────────────────
    MY JOURNEY — terminal git log style
@@ -191,11 +194,38 @@ export function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<
+    "send_message()" | "submitting..." | "success"
+  >("send_message()");
 
-  function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-  }
+    setStatus("submitting...");
+
+    try {
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          name: name,
+          email: email,
+          message: message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+      );
+
+      setStatus("success");
+      setSubmitted(true);
+
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.error("FAILED...", error);
+    } finally {
+      setStatus("send_message()");
+    }
+  };
 
   return (
     <section id="contact" className="py-24 relative bg-black/50">
@@ -370,15 +400,17 @@ export function Contact() {
                   <button
                     type="submit"
                     className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-mono text-sm font-bold
-                               bg-[#28C840]/15 text-[#28C840] border border-[#28C840]/30
-                               hover:bg-[#28C840]/25 hover:shadow-[0_0_20px_rgba(40,200,64,0.2)]
-                               transition-all duration-200 group"
+                                bg-[#28C840]/15 text-[#28C840] border border-[#28C840]/30
+                                hover:bg-[#28C840]/25 hover:shadow-[0_0_20px_rgba(40,200,64,0.2)]
+                                transition-all duration-200 group"
                   >
-                    <span>send_message()</span>
-                    <Send
-                      size={14}
-                      className="group-hover:translate-x-0.5 transition-transform"
-                    />
+                    <span>{status}</span>
+                    {status === "send_message()" && (
+                      <Send
+                        size={14}
+                        className="group-hover:translate-x-0.5 transition-transform"
+                      />
+                    )}
                   </button>
                 </div>
               </form>

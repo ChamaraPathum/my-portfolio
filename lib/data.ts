@@ -110,19 +110,27 @@ export const PORTFOLIO_DATA = {
   experience: [
     {
       id: "exp-1",
-      role: "Full Stack Developer",
-      company: "Tech Agency",
-      period: "2023 - Present",
+      role: "Full Stack Software Developer",
+      company: "Revolution Tech Software Solutions",
+      period: "Jan 2025 - Present",
       description:
-        "Developed and maintained 10+ client websites, implemented robust backend APIs, and migrated legacy systems to modern React stacks.",
+        "Developed and maintained scalable web applications using React.js, Next.js, Node.js, and MS SQL Server, including REST API development and database design.",
     },
     {
       id: "exp-2",
-      role: "Frontend Web Developer",
-      company: "Freelance",
-      period: "2022 - 2023",
+      role: "Software Engineer - Intern",
+      company: " Enterprise Business Intelligence (PVT) Ltd ",
+      period: "Aug 2023 - Oct 2024",
       description:
-        "Designed and built highly interactive landing pages and dashboards for early-stage startups using React and Tailwind CSS.",
+        "Developed and maintained web applications using the MERN stack and Next.js.",
+    },
+    {
+      id: "exp-3",
+      role: "React Native Developer - Intern",
+      company: " HotCat Technologies",
+      period: "Jan2023- Jul 2023",
+      description:
+        "Developed and maintained cross-platform mobile applications for Android and iOS using React Native, improving performance, stability, and user experience.",
     },
   ],
 };
