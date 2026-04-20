@@ -5,13 +5,22 @@ export const PORTFOLIO_DATA = {
   personal: {
     name: "Chamara Pathum",
     role: "Full Stack Developer",
-    bio: "I build responsive, modern, and engaging web applications with a focus on performance and seamless user experiences. With over 2 years of experience, I bridge the gap between stunning interfaces and robust backend architectures.",
-    email: "chamara@example.com",
+    bio: "Focused and highly motivated Software Engineer with 3+ years of industrial experience in Full stack software development. I'm capable of learning and adapting to new technologies quickly. Also a good team player.",
+    email: "chamarapathum24@gmail.com",
     location: "Sri Lanka",
     socials: [
-      { id: "github", label: "GitHub", url: "https://github.com", icon: GithubIcon },
-      { id: "linkedin", label: "LinkedIn", url: "https://linkedin.com", icon: LinkedinIcon },
-      { id: "twitter", label: "Twitter", url: "https://twitter.com", icon: TwitterIcon },
+      {
+        id: "github",
+        label: "GitHub",
+        url: "https://github.com/ChamaraPathum",
+        icon: GithubIcon,
+      },
+      {
+        id: "linkedin",
+        label: "LinkedIn",
+        url: "https://www.linkedin.com/in/chamarapathum/",
+        icon: LinkedinIcon,
+      },
     ],
   },
   stats: [
@@ -56,7 +65,8 @@ export const PORTFOLIO_DATA = {
     {
       id: "proj-1",
       title: "E-Commerce Platform",
-      description: "A full-scale e-commerce solution with Next.js App Router, Stripe integration, and an admin dashboard.",
+      description:
+        "A full-scale e-commerce solution with Next.js App Router, Stripe integration, and an admin dashboard.",
       image: "/project-placeholder.png",
       tags: ["Next.js", "TypeScript", "Tailwind", "Stripe", "Prisma"],
       category: "Full Stack",
@@ -66,7 +76,8 @@ export const PORTFOLIO_DATA = {
     {
       id: "proj-2",
       title: "Task Management App",
-      description: "A drag-and-drop kanban board application for team productivity.",
+      description:
+        "A drag-and-drop kanban board application for team productivity.",
       image: "/project-placeholder.png",
       tags: ["React", "Redux", "Node.js", "Express", "MongoDB"],
       category: "Full Stack",
@@ -76,7 +87,8 @@ export const PORTFOLIO_DATA = {
     {
       id: "proj-3",
       title: "3D Product Landing Page",
-      description: "Premium cinematic landing page featuring scroll-driven 3D animations.",
+      description:
+        "Premium cinematic landing page featuring scroll-driven 3D animations.",
       image: "/project-placeholder.png",
       tags: ["React", "Three.js", "Framer Motion", "GSAP"],
       category: "Frontend",
@@ -86,7 +98,8 @@ export const PORTFOLIO_DATA = {
     {
       id: "proj-4",
       title: "Real-time Chat App",
-      description: "WebSocket-based chat application with direct messaging, group rooms, and presence indicators.",
+      description:
+        "WebSocket-based chat application with direct messaging, group rooms, and presence indicators.",
       image: "/project-placeholder.png",
       tags: ["React", "Socket.io", "Node.js", "Tailwind"],
       category: "Backend",
@@ -100,14 +113,16 @@ export const PORTFOLIO_DATA = {
       role: "Full Stack Developer",
       company: "Tech Agency",
       period: "2023 - Present",
-      description: "Developed and maintained 10+ client websites, implemented robust backend APIs, and migrated legacy systems to modern React stacks.",
+      description:
+        "Developed and maintained 10+ client websites, implemented robust backend APIs, and migrated legacy systems to modern React stacks.",
     },
     {
       id: "exp-2",
       role: "Frontend Web Developer",
       company: "Freelance",
       period: "2022 - 2023",
-      description: "Designed and built highly interactive landing pages and dashboards for early-stage startups using React and Tailwind CSS.",
+      description:
+        "Designed and built highly interactive landing pages and dashboards for early-stage startups using React and Tailwind CSS.",
     },
   ],
 };

@@ -154,7 +154,7 @@ export default function About() {
           className="mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
-            About Me{" "}
+            About Me
           </h2>
           <div className="mt-6 flex flex-col gap-2">
             <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">

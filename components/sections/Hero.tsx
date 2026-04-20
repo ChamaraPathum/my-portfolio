@@ -5,12 +5,7 @@ import { ChevronDown, Download, GitBranch, Wifi } from "lucide-react";
 
 export default function Hero() {
   // ── Typewriter / role cycler ─────────────────────────────────
-  const roles = [
-    "Full Stack Developer",
-    "UI/UX Engineer",
-    "React Specialist",
-    "Next.js Expert",
-  ];
+  const roles = ["Full Stack Developer", "React Specialist", "Next.js Expert"];
   const [roleIdx, setRoleIdx] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -247,16 +242,14 @@ export default function Hero() {
             </a>
 
             <a
-              href="#projects"
-              // className="group flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold
-              //            bg-white/[0.04] text-[#8b949e] border border-white/8
-              //            hover:text-white hover:bg-white/[0.08] hover:border-white/15
-              //            transition-all duration-200 w-fit"
-
+              href="Chamara Pathum - Resume.pdf"
+              // download="Chamara_Pathum_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold
-             bg-white/[0.04] text-[#8b949e] border border-white/8
-             pointer-events-none opacity-50 cursor-not-allowed
-             transition-all duration-200 w-fit"
+                         bg-white/[0.04] text-[#8b949e] border border-white/8
+                         hover:text-white hover:bg-white/[0.08] hover:border-white/15
+                         transition-all duration-200 w-fit"
             >
               <span className="text-[#6E9FFF]/50 shrink-0">$</span>
               <span>download_cv()</span>
