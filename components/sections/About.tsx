@@ -116,22 +116,15 @@ export default function About() {
   const t2 = t1 + commentHeaderDur; // bio text
   const bioDur = bio.length * 18 + LINE_GAP;
 
-  // Stats lines
+  // Stats lines — only typewrite the value (e.g. "2+"), rest is static JSX
   const statTimes = stats.map((stat, i) => {
-    const statText = `${stat.label.toLowerCase().replace(/\s+/g, "_")} = ${stat.value};`;
     const prevDur =
       i === 0
         ? bioDur
         : stats.slice(0, i).reduce((acc, s) => {
-            return (
-              acc +
-              (`${s.label.toLowerCase().replace(/\s+/g, "_")} = ${s.value};`
-                .length *
-                LINE_SPEED +
-                LINE_GAP)
-            );
+            return acc + (s.value.length * LINE_SPEED + LINE_GAP);
           }, LINE_GAP);
-    return { stat, text: statText, t: t2 + prevDur };
+    return { stat, text: stat.value, t: t2 + prevDur };
   });
 
   const lastStatEnd =
@@ -315,33 +308,21 @@ export default function About() {
                         const varName = stat.label
                           .toLowerCase()
                           .replace(/\s+/g, "_");
-                        const prefix = `const ${varName} = `;
                         return (
                           <p>
-                            {typed.length > 0 && (
-                              <span className="text-[#6E9FFF]">const</span>
-                            )}
-                            {typed.length > 6 && (
-                              <span className="text-[#79D8A4]">
-                                {" "}
-                                {typed.slice(
-                                  6,
-                                  Math.min(typed.length, prefix.length - 3),
-                                )}
-                              </span>
-                            )}
-                            {typed.length >= prefix.length - 2 && (
-                              <span className="text-white"> = </span>
-                            )}
-                            {typed.length > prefix.length && (
-                              <span className="text-[#FEBC2E]">
-                                {typed.slice(
-                                  prefix.length,
-                                  typed.length - (done ? 1 : 0),
-                                )}
-                              </span>
-                            )}
+                            {/* Static: "const" keyword */}
+                            <span className="text-[#6E9FFF]">const</span>
+                            {/* Static: variable name */}
+                            <span className="text-[#79D8A4]"> {varName}</span>
+                            {/* Static: " = " */}
+                            <span className="text-white"> = </span>
+                            {/* Typed: only the value (e.g. "2+") */}
+                            <span className="text-[#FEBC2E]">{typed}</span>
+                            {/* Static: ";" only when typing is complete */}
                             {done && <span className="text-white">;</span>}
+                            {!done && typed.length === 0 && (
+                              <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
+                            )}
                             {!done && typed.length > 0 && (
                               <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
                             )}
