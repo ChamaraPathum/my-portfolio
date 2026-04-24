@@ -139,7 +139,7 @@ export default function Projects() {
               </div>
 
               {/* tab row */}
-              <div className="flex flex-wrap gap-2 pb-0">
+              <div className="flex flex-wrap gap-5 pb-2 justify-center">
                 {categories.map((cat) => {
                   const col = getCategoryColor(cat);
                   const isActive = activeFilter === cat;
@@ -150,7 +150,7 @@ export default function Projects() {
                       className={`
                         relative flex items-center gap-1.5 px-4 py-2 rounded-t-lg
                         font-mono text-xs border-t border-l border-r
-                        transition-all duration-200
+                        transition-all duration-200 cursor-pointer
                         ${
                           isActive
                             ? `${col.bg} ${col.text} ${col.border} ${col.glow}`
@@ -158,7 +158,7 @@ export default function Projects() {
                         }
                       `}
                     >
-                      <FileCode2 size={11} />
+                      <FileCode2 size={12} />
                       <span>--{cat.toLowerCase().replace(/\s+/g, "-")}</span>
                       {isActive && (
                         <motion.div

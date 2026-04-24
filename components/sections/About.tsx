@@ -187,7 +187,7 @@ export default function About() {
               <div className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
               <div className="w-full h-full relative rounded-xl overflow-hidden">
                 <Image
-                  src="/my-image.jpeg"
+                  src="/my-image.png"
                   alt="Chamara Pathum"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale"
