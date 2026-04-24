@@ -26,6 +26,7 @@ export const PORTFOLIO_DATA = {
   stats: [
     { id: "exp", value: "3+", label: "Years Experience" },
     { id: "projects", value: "10+", label: "Projects Completed" },
+    { id: "clients", value: "15+", label: "Clients Served" },
     { id: "features", value: "150+", label: "Features Implemented" },
   ],
   skills: [
