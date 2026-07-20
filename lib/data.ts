@@ -1,11 +1,11 @@
-import { Mail, Code2, Database, LayoutTemplate, Server } from "lucide-react";
-import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/ui/icons";
+import { Code2, Database, LayoutTemplate, Server } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 
 export const PORTFOLIO_DATA = {
   personal: {
     name: "Chamara Pathum",
     role: "Full Stack Developer",
-    bio: "Focused and highly motivated Software Engineer with 3+ years of industrial experience in Full stack software development. I'm capable of learning and adapting to new technologies quickly. Also a good team player.",
+    bio: "Focused and highly motivated Software Engineer with 3+ years of industrial experience in Full Stack software development. Capable of learning and adapting to new technologies quickly. A passionate builder who bridges stunning visual design with robust backend architecture.",
     email: "chamarapathum24@gmail.com",
     location: "Sri Lanka",
     socials: [
@@ -34,11 +34,12 @@ export const PORTFOLIO_DATA = {
       category: "Frontend",
       icon: LayoutTemplate,
       items: [
-        { name: "React", level: 90 },
+        { name: "React.js", level: 90 },
         { name: "Next.js", level: 85 },
         { name: "TypeScript", level: 90 },
         { name: "Tailwind CSS", level: 95 },
         { name: "Framer Motion", level: 80 },
+        { name: "React Native", level: 80 },
       ],
     },
     {
@@ -46,9 +47,10 @@ export const PORTFOLIO_DATA = {
       icon: Database,
       items: [
         { name: "Node.js", level: 85 },
-        { name: "Express", level: 85 },
+        { name: "Express.js", level: 85 },
         { name: "MongoDB", level: 85 },
         { name: "MS SQL Server", level: 75 },
+        { name: "MySQL", level: 75 },
         { name: "PostgreSQL", level: 70 },
       ],
     },
@@ -57,9 +59,11 @@ export const PORTFOLIO_DATA = {
       icon: Server,
       items: [
         { name: "Git & GitHub", level: 90 },
-        { name: "Mongoose & Sequelize", level: 85 },
-        { name: "Azure Basics", level: 65 },
+        { name: "REST APIs", level: 90 },
+        { name: "GitLab", level: 80 },
+        { name: "Azure", level: 65 },
         { name: "Vercel", level: 70 },
+        { name: "Mongoose & Sequelize", level: 85 },
       ],
     },
   ],
@@ -68,43 +72,54 @@ export const PORTFOLIO_DATA = {
       id: "proj-1",
       title: "Hotel Management System",
       description:
-        "A full-stack hotel management system with Next.js, supporting room bookings, availability tracking, secure data handling, and an admin dashboard for managing daily hotel operations.",
-      image: "/project-placeholder.png",
-      tags: ["Next.js", "TypeScript", "Tailwind", "Node.js", "MS SQL Server"],
+        "Comprehensive Hotel Management System with a client portal for Cinnamon LakeHouse. Includes booking management, guest services, RESTful APIs, MS SQL database architecture, role-based auth, and Azure CI/CD deployment.",
+      image: "/proj-hotel.png",
+      tags: ["React", "Next.js", "Node.js", "Express", "MS SQL", "Azure"],
       category: "Full Stack",
       liveUrl: "#",
       githubUrl: "#",
     },
     {
       id: "proj-2",
-      title: "Task Management App",
+      title: "Mondo Migranti Website",
       description:
-        "A drag-and-drop kanban board application for team productivity.",
-      image: "/project-placeholder.png",
-      tags: ["React", "Redux", "Node.js", "Express", "MongoDB"],
+        "Corporate website for Mondo Migranti showcasing immigration and travel-related services. Built with Next.js and Tailwind CSS with full responsive design, optimized performance, and production deployment.",
+      image: "/proj-mondo.png",
+      tags: ["Next.js", "React", "Tailwind CSS", "Azure"],
+      category: "Frontend",
+      liveUrl: "https://mondomigranti.org",
+      githubUrl: "#",
+    },
+    {
+      id: "proj-3",
+      title: "IGRS — Foreign Employment Platform",
+      description:
+        "Full-stack web platform to support foreign job seekers managing employment-related services. Features job tracking, document management, employer listings, and MongoDB database integration. Hosted via GitLab.",
+      image: "/proj-igrs.png",
+      tags: ["React", "Node.js", "MongoDB", "REST APIs", "GitLab"],
+      category: "Full Stack",
+      liveUrl: "https://www.igrs.lk",
+      githubUrl: "#",
+    },
+    {
+      id: "proj-4",
+      title: "JobPool — Recruitment Platform",
+      description:
+        "Centralized digital recruitment platform connecting job seekers with recruitment companies. Built with Next.js and TypeScript, featuring modern frontend architecture, reusable components, and optimized performance.",
+      image: "/proj-jobpool.png",
+      tags: ["Next.js", "TypeScript", "React"],
       category: "Full Stack",
       liveUrl: "#",
       githubUrl: "#",
     },
     {
-      id: "proj-3",
-      title: "3D Product Landing Page",
+      id: "proj-5",
+      title: "Adiya — Restaurant Ordering App",
       description:
-        "Premium cinematic landing page featuring scroll-driven 3D animations.",
-      image: "/project-placeholder.png",
-      tags: ["React", "Three.js", "Framer Motion", "GSAP"],
-      category: "Frontend",
-      liveUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: "proj-4",
-      title: "Real-time Chat App",
-      description:
-        "WebSocket-based chat application with direct messaging, group rooms, and presence indicators.",
-      image: "/project-placeholder.png",
-      tags: ["React", "Socket.io", "Node.js", "Tailwind"],
-      category: "Backend",
+        "Cross-platform mobile application connecting restaurants with customers via a seamless digital ordering experience. Built with React Native for Android & iOS, backed by Node.js REST APIs and MySQL database.",
+      image: "/proj-adiya.png",
+      tags: ["React Native", "Node.js", "MySQL", "JavaScript"],
+      category: "Mobile",
       liveUrl: "#",
       githubUrl: "#",
     },
@@ -114,25 +129,25 @@ export const PORTFOLIO_DATA = {
       id: "exp-1",
       role: "Full Stack Software Developer",
       company: "Revolution Tech Software Solutions",
-      period: "Jan 2025 - Present",
+      period: "Jan 2025 – Present",
       description:
-        "Developed and maintained scalable web applications using React.js, Next.js, Node.js, and MS SQL Server, including REST API development and database design.",
+        "Developed and maintained scalable web applications using React.js, Next.js, Node.js, and MS SQL Server. Responsibilities include REST API development, database design, and delivering production-ready features for enterprise clients.",
     },
     {
       id: "exp-2",
-      role: "Software Engineer - Intern",
-      company: " Enterprise Business Intelligence (PVT) Ltd ",
-      period: "Aug 2023 - Oct 2024",
+      role: "Software Engineer — Intern",
+      company: "Enterprise Business Intelligence (PVT) Ltd",
+      period: "Aug 2023 – Oct 2024",
       description:
-        "Developed and maintained web applications using the MERN stack and Next.js.",
+        "Developed and maintained web applications using the MERN stack and Next.js. Collaborated across projects including the IGRS foreign employment platform and the Mondo Migranti corporate website.",
     },
     {
       id: "exp-3",
-      role: "React Native Developer - Intern",
-      company: " HotCat Technologies",
-      period: "Jan2023- Jul 2023",
+      role: "React Native Developer — Intern",
+      company: "HotCat Technologies",
+      period: "Jan 2023 – Jul 2023",
       description:
-        "Developed and maintained cross-platform mobile applications for Android and iOS using React Native, improving performance, stability, and user experience.",
+        "Developed and maintained cross-platform mobile applications for Android and iOS using React Native. Improved application performance, stability, and user experience across multiple production releases.",
     },
   ],
 };

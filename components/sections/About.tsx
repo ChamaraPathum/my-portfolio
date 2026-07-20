@@ -1,389 +1,208 @@
 "use client";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { MapPin, Mail, Download } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { PORTFOLIO_DATA } from "@/lib/data";
 
-// Hook: types out a string character by character after a delay
-function useTypewriter(
-  text: string,
-  speed = 30,
-  startDelay = 0,
-  enabled = false,
-) {
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    if (!enabled) return;
-    setDisplayed("");
-    setDone(false);
-    let i = 0;
-    const delayTimer = setTimeout(() => {
-      const interval = setInterval(() => {
-        i++;
-        setDisplayed(text.slice(0, i));
-        if (i >= text.length) {
-          clearInterval(interval);
-          setDone(true);
-        }
-      }, speed);
-      return () => clearInterval(interval);
-    }, startDelay);
-    return () => clearTimeout(delayTimer);
-  }, [text, speed, startDelay, enabled]);
-
-  return { displayed, done };
-}
-
-// A single terminal line that types itself out
-function TerminalLine({
-  children,
-  delay,
-  isInView,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay: number;
-  isInView: boolean;
-  className?: string;
-}) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const t = setTimeout(() => setVisible(true), delay);
-    return () => clearTimeout(t);
-  }, [isInView, delay]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={visible ? { opacity: 1 } : {}}
-      transition={{ duration: 0.1 }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// A line that types out its plain text content
-function TypewriterLine({
-  text,
-  delay,
-  speed = 28,
-  isInView,
-  renderFn,
-}: {
-  text: string;
-  delay: number;
-  speed?: number;
-  isInView: boolean;
-  renderFn: (typed: string, done: boolean) => React.ReactNode;
-}) {
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const t = setTimeout(() => setStarted(true), delay);
-    return () => clearTimeout(t);
-  }, [isInView, delay]);
-
-  const { displayed, done } = useTypewriter(text, speed, 0, started);
-  return <>{renderFn(displayed, done)}</>;
-}
-
 export default function About() {
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(terminalRef, { once: true, margin: "-100px" });
-
-  const name = PORTFOLIO_DATA.personal.name;
-  const bio = PORTFOLIO_DATA.personal.bio;
-  const stats = PORTFOLIO_DATA.stats;
-  const socials = PORTFOLIO_DATA.personal.socials;
-
-  // Calculate cumulative timings for sequential typing
-  const LINE_SPEED = 30;
-  const LINE_GAP = 100; // ms gap between lines starting
-
-  const t0 = 200; // "const developer = ..."
-  const line0Dur = name.length * LINE_SPEED + LINE_GAP;
-
-  const t1 = t0 + line0Dur; // "/** About me */"
-  const commentHeaderDur = 16 * LINE_SPEED + LINE_GAP;
-
-  const t2 = t1 + commentHeaderDur; // bio text
-  const bioDur = bio.length * 18 + LINE_GAP;
-
-  // Stats lines — only typewrite the value (e.g. "2+"), rest is static JSX
-  const statTimes = stats.map((stat, i) => {
-    const prevDur =
-      i === 0
-        ? bioDur
-        : stats.slice(0, i).reduce((acc, s) => {
-            return acc + (s.value.length * LINE_SPEED + LINE_GAP);
-          }, LINE_GAP);
-    return { stat, text: stat.value, t: t2 + prevDur };
-  });
-
-  const lastStatEnd =
-    statTimes.length > 0
-      ? statTimes[statTimes.length - 1].t +
-        statTimes[statTimes.length - 1].text.length * LINE_SPEED +
-        LINE_GAP
-      : t2 + bioDur;
-
-  const tSocials = lastStatEnd;
+  const { personal, stats } = PORTFOLIO_DATA;
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="about" className="py-28 relative overflow-hidden">
+      {/* Background accent */}
+      <div
+        className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-10"
+        style={{
+          background: "radial-gradient(circle, rgba(99,102,241,0.6) 0%, transparent 70%)",
+          filter: "blur(80px)",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-2">
+          <div className="section-tag mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
             About Me
-          </h2>
-          <div className="mt-6 flex flex-col gap-2">
-            <div className="flex justify-between items-end w-48 text-[10px] font-mono text-[#8b949e] uppercase tracking-widest">
-              <span>status: loading...</span>
-              <motion.span
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 1.8 }}
-                className="text-[#28C840]"
-              >
-                100%
-              </motion.span>
-            </div>
-            <div className="h-1 w-48 bg-white/10 rounded-full overflow-hidden relative">
-              <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
-                className="h-full bg-[#28C840] rounded-full shadow-[0_0_12px_rgba(40,200,64,0.6)]"
-              />
-            </div>
           </div>
+          <h2 className="font-heading font-bold text-4xl md:text-5xl text-[#f1f5f9] mb-4">
+            Crafting Digital{" "}
+            <span className="gradient-text">Experiences</span>
+          </h2>
+          <p className="text-[#64748b] text-base max-w-xl leading-relaxed">
+            Passionate about building scalable, beautiful, and performant web applications.
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Avatar side */}
+        {/* Two-column layout */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Photo column */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8 }}
-            className="relative"
+            className="relative flex justify-center lg:justify-start"
           >
-            <div className="aspect-square relative max-w-md mx-auto rounded-2xl overflow-hidden card-3d p-2 group">
-              <div className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
-              <div className="w-full h-full relative rounded-xl overflow-hidden">
+            {/* Glow ring behind photo */}
+            <div
+              className="absolute inset-0 m-auto w-80 h-80 rounded-full"
+              style={{
+                background: "radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%)",
+                filter: "blur(30px)",
+              }}
+            />
+
+            {/* Photo frame */}
+            <div className="relative group">
+              {/* Animated border ring */}
+              <div
+                className="absolute -inset-1 rounded-3xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #6366f1, #a78bfa, #6366f1)",
+                  backgroundSize: "200% 200%",
+                  animation: "shimmer 3s infinite",
+                  filter: "blur(4px)",
+                }}
+              />
+              <div className="relative w-72 h-80 lg:w-80 lg:h-96 rounded-3xl overflow-hidden border border-indigo-500/20">
                 <Image
                   src="/my-image.png"
                   alt="Chamara Pathum"
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 288px, 320px"
                   priority
                 />
+                {/* Subtle overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020817]/40 via-transparent to-transparent" />
               </div>
+
+              {/* Floating badge — bottom */}
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-5 -right-5 glass-card rounded-2xl px-4 py-3 flex items-center gap-3"
+              >
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
+                  <span className="text-white font-bold text-sm font-heading">3+</span>
+                </div>
+                <div>
+                  <p className="text-[#f1f5f9] text-xs font-semibold leading-tight">Years</p>
+                  <p className="text-[#64748b] text-[10px]">Experience</p>
+                </div>
+              </motion.div>
+
+              {/* Floating badge — top */}
+              <motion.div
+                animate={{ y: [0, 6, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute -top-5 -left-5 glass-card rounded-2xl px-4 py-3 flex items-center gap-2.5"
+              >
+                <div className="w-2 h-2 rounded-full bg-emerald-400 dot-pulse" />
+                <span className="text-[#f1f5f9] text-xs font-semibold">Available to hire</span>
+              </motion.div>
             </div>
           </motion.div>
 
-          {/* Terminal Details side */}
+          {/* Content column */}
           <motion.div
-            ref={terminalRef}
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-8"
           >
-            {/* Terminal Window */}
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.6)]">
-              {/* Terminal Chrome / Header */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#1a1a1a] border-b border-white/10">
-                <span className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                <span className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-                <span className="w-3 h-3 rounded-full bg-[#28C840]" />
-                <span className="ml-3 text-xs font-mono text-gray-500 tracking-widest">
-                  ~/chamara/portfolio — zsh
-                </span>
+            <div>
+              <h3 className="font-heading font-bold text-2xl text-[#f1f5f9] mb-4">
+                Full Stack Developer based in{" "}
+                <span className="gradient-text">Sri Lanka</span>
+              </h3>
+              <p className="text-[#94a3b8] leading-relaxed text-base">
+                {personal.bio}
+              </p>
+            </div>
+
+            {/* Info grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center gap-3 glass-card rounded-xl px-4 py-3">
+                <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                  <MapPin size={16} className="text-indigo-400" />
+                </div>
+                <div>
+                  <p className="text-[#475569] text-[11px] uppercase tracking-wider font-medium">Location</p>
+                  <p className="text-[#f1f5f9] text-sm font-medium">{personal.location}</p>
+                </div>
               </div>
+              <div className="flex items-center gap-3 glass-card rounded-xl px-4 py-3">
+                <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                  <Mail size={16} className="text-indigo-400" />
+                </div>
+                <div>
+                  <p className="text-[#475569] text-[11px] uppercase tracking-wider font-medium">Email</p>
+                  <p className="text-[#f1f5f9] text-sm font-medium truncate">{personal.email}</p>
+                </div>
+              </div>
+            </div>
 
-              {/* Terminal Body */}
-              <div className="bg-[#0d1117] p-6 font-mono text-sm leading-7 min-h-[320px]">
-                {/* Line 1: const developer = "Name"; */}
-                <TypewriterLine
-                  text={`const developer = "${name}";`}
-                  delay={t0}
-                  speed={LINE_SPEED}
-                  isInView={isInView}
-                  renderFn={(typed, done) => (
-                    <p>
-                      <span className="text-[#6E9FFF]">
-                        {typed.startsWith("const")
-                          ? "const"
-                          : typed.slice(0, Math.min(typed.length, 5))}
-                      </span>
-                      {typed.length > 5 && (
-                        <>
-                          {" "}
-                          <span className="text-[#79D8A4]">
-                            {typed.slice(6, Math.min(typed.length, 15))}
-                          </span>
-                        </>
-                      )}
-                      {typed.length > 15 && (
-                        <span className="text-white">
-                          {typed.slice(15, Math.min(typed.length, 18))}
-                        </span>
-                      )}
-                      {typed.length > 18 && (
-                        <span className="text-[#FF7B72]">
-                          {typed.slice(18, typed.length - (done ? 1 : 0))}
-                        </span>
-                      )}
-                      {done && <span className="text-white">;</span>}
-                      {!done && (
-                        <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
-                      )}
-                    </p>
-                  )}
-                />
-
-                {/* Comment block: bio */}
-                <TerminalLine
-                  delay={t1}
-                  isInView={isInView}
-                  className="mt-4 border-l-2 border-[#28C840]/40 pl-4"
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {stats.map((stat, i) => (
+                <motion.div
+                  key={stat.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                  className="glass-card rounded-2xl p-4 text-center"
                 >
-                  <TypewriterLine
-                    text="/** About me */"
-                    delay={t1}
-                    speed={LINE_SPEED}
-                    isInView={isInView}
-                    renderFn={(typed, done) => (
-                      <p className="text-[#28C840] text-xs mb-1">
-                        {typed}
-                        {!done && (
-                          <span className="inline-block w-[2px] h-[0.8em] bg-[#28C840] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
-                        )}
-                      </p>
-                    )}
-                  />
-                  <TypewriterLine
-                    text={bio}
-                    delay={t2}
-                    speed={18}
-                    isInView={isInView}
-                    renderFn={(typed, done) => (
-                      <p className="text-[#8b949e] text-xs leading-5">
-                        {typed}
-                        {!done && typed.length > 0 && (
-                          <span className="inline-block w-[2px] h-[0.8em] bg-[#8b949e] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
-                        )}
-                      </p>
-                    )}
-                  />
-                </TerminalLine>
+                  <span className="block text-2xl font-heading font-bold gradient-text leading-none mb-1">
+                    {stat.value}
+                  </span>
+                  <span className="text-[#64748b] text-[10px] font-medium uppercase tracking-wider leading-tight">
+                    {stat.label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
 
-                {/* Stats as const declarations */}
-                <div className="mt-4 space-y-1">
-                  {statTimes.map(({ stat, text, t }) => (
-                    <TypewriterLine
-                      key={stat.id}
-                      text={text}
-                      delay={t}
-                      speed={LINE_SPEED}
-                      isInView={isInView}
-                      renderFn={(typed, done) => {
-                        const varName = stat.label
-                          .toLowerCase()
-                          .replace(/\s+/g, "_");
-                        return (
-                          <p>
-                            {/* Static: "const" keyword */}
-                            <span className="text-[#6E9FFF]">const</span>
-                            {/* Static: variable name */}
-                            <span className="text-[#79D8A4]"> {varName}</span>
-                            {/* Static: " = " */}
-                            <span className="text-white"> = </span>
-                            {/* Typed: only the value (e.g. "2+") */}
-                            <span className="text-[#FEBC2E]">{typed}</span>
-                            {/* Static: ";" only when typing is complete */}
-                            {done && <span className="text-white">;</span>}
-                            {!done && typed.length === 0 && (
-                              <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
-                            )}
-                            {!done && typed.length > 0 && (
-                              <span className="inline-block w-[2px] h-[1em] bg-white/80 animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
-                            )}
-                          </p>
-                        );
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Divider */}
-                <TerminalLine delay={tSocials - 50} isInView={isInView}>
-                  <div className="my-5 border-t border-white/5" />
-                </TerminalLine>
-
-                {/* Social links */}
-                <div className="space-y-1 mb-4">
-                  {socials.map((social, i) => {
-                    const Icon = social.icon;
-                    const urlText = social.url.replace("https://", "");
-                    return (
-                      <TypewriterLine
-                        key={social.id}
-                        text={`$ open ${urlText}`}
-                        delay={
-                          tSocials +
-                          i *
-                            (`$ open ${urlText}`.length * LINE_SPEED + LINE_GAP)
-                        }
-                        speed={LINE_SPEED}
-                        isInView={isInView}
-                        renderFn={(typed, done) => (
-                          <a
-                            href={social.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-3 group w-fit"
-                          >
-                            <span className="text-[#28C840]">$</span>
-                            <span className="text-[#8b949e] group-hover:text-white transition-colors flex items-center gap-2">
-                              <Icon size={14} />
-                              <span className="text-xs group-hover:text-[#28C840] transition-colors">
-                                {typed.slice(2)}
-                                {!done && (
-                                  <span className="inline-block w-[2px] h-[0.8em] bg-[#8b949e] animate-[blink_0.75s_step-end_infinite] align-middle ml-[1px]" />
-                                )}
-                              </span>
-                            </span>
-                          </a>
-                        )}
-                      />
-                    );
-                  })}
-                </div>
-
-                {/* Blinking cursor at end */}
-                <p className="flex items-center gap-1 mt-2">
-                  <span className="text-[#28C840]">›</span>
-                  <span className="w-2 h-4 bg-[#28C840] animate-[blink_1s_step-end_infinite] inline-block ml-1" />
-                </p>
-              </div>
+            {/* Action buttons */}
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/Chamara Pathum - Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary flex items-center gap-2 text-sm py-2.5"
+              >
+                <Download size={15} />
+                Download CV
+              </a>
+              <a
+                href={personal.socials[0].url}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-secondary flex items-center gap-2 text-sm py-2.5"
+              >
+                <GithubIcon size={15} />
+                GitHub
+              </a>
+              <a
+                href={personal.socials[1].url}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-secondary flex items-center gap-2 text-sm py-2.5"
+              >
+                <LinkedinIcon size={15} />
+                LinkedIn
+              </a>
             </div>
           </motion.div>
         </div>

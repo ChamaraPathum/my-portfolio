@@ -1,20 +1,32 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Chamara Pathum | Full Stack Developer",
-  description: "Modern portfolio of Chamara Pathum, Full Stack Developer specializing in React, Node.js, and modern web technologies.",
+  description:
+    "Professional portfolio of Chamara Pathum — Full Stack Developer specializing in React, Next.js, Node.js, and modern web technologies. Available for freelance & full-time opportunities.",
+  keywords: [
+    "Chamara Pathum",
+    "Full Stack Developer",
+    "React Developer",
+    "Next.js",
+    "Node.js",
+    "Sri Lanka Developer",
+    "Portfolio",
+  ],
 };
 
 export default function RootLayout({
@@ -25,9 +37,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} dark antialiased scroll-smooth`}
+      className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased scroll-smooth`}
     >
-      <body className="min-h-screen bg-background-dark text-[#ededed] overflow-x-hidden selection:bg-brand-violet/30 selection:text-brand-cyan">
+      <body className="min-h-screen bg-[#020817] text-[#f1f5f9] overflow-x-hidden selection:bg-indigo-500/30 selection:text-indigo-200">
         {children}
       </body>
     </html>

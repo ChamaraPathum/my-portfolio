@@ -1,207 +1,146 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GitBranch, Terminal, X, Menu, ChevronRight } from "lucide-react";
+import { X, Menu, ExternalLink, Mail } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 import { PORTFOLIO_DATA } from "@/lib/data";
 
+const NAV_LINKS = [
+  { name: "About", href: "#about" },
+  { name: "Skills", href: "#skills" },
+  { name: "Projects", href: "#projects" },
+  { name: "Experience", href: "#experience" },
+  { name: "Contact", href: "#contact" },
+];
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-
-  const links = [
-    { name: "About", href: "#about", cmd: "cd ./about" },
-    { name: "Skills", href: "#skills", cmd: "ls ./skills" },
-    { name: "Projects", href: "#projects", cmd: "ls ./projects" },
-    { name: "Experience", href: "#experience", cmd: "ls ./experience" },
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-      const sections = [
-        "hero",
-        "about",
-        "skills",
-        "projects",
-        "experience",
-        "contact",
-      ];
+      setScrolled(window.scrollY > 60);
+      const sections = ["hero", "about", "skills", "projects", "experience", "contact"];
       for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
+        if (el && window.scrollY >= el.offsetTop - 140) {
           setActiveSection(id);
           break;
         }
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const onHero = !scrolled;
 
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        onHero
-          ? "bg-[#1a1a1a] border-b border-white/10"
-          : "bg-[#0d1117]/95 backdrop-blur-md border-b border-white/5",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        scrolled
+          ? "bg-[#020817]/90 backdrop-blur-xl border-b border-indigo-500/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
+          : "bg-transparent"
       )}
     >
-      {/* Single bar — h-14 always */}
-      <div className="h-14 px-5 flex items-center justify-between gap-3">
-        {/* LEFT: traffic lights (hero only) + logo */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div
-            className={cn(
-              "flex items-center gap-1.5 transition-all duration-300 overflow-hidden",
-              onHero ? "w-auto opacity-100" : "w-0 opacity-0",
-            )}
-          >
-            <span className="w-3 h-3 rounded-full bg-[#FF5F57] shrink-0" />
-            <span className="w-3 h-3 rounded-full bg-[#FEBC2E] shrink-0" />
-            <span className="w-3 h-3 rounded-full bg-[#28C840] shrink-0" />
+      <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+        {/* Logo */}
+        <a href="#hero" className="flex items-center gap-2.5 group shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-heading font-bold text-white text-sm shadow-[0_0_15px_rgba(99,102,241,0.4)] group-hover:shadow-[0_0_25px_rgba(99,102,241,0.6)] transition-shadow duration-300">
+            CP
           </div>
+          <span className="font-heading font-semibold text-[#f1f5f9] text-sm tracking-wide hidden sm:block">
+            Chamara<span className="text-indigo-400"> Pathum</span>
+          </span>
+        </a>
 
-          <a href="#hero" className="flex items-center gap-1.5 group">
-            <Terminal size={14} className="text-[#28C840]" />
-            <span className="font-mono text-xs">
-              <span className="text-[#28C949]">~</span>
-              <span className="text-[#8b949e]">/</span>
-              <span className="text-white font-bold">chamara</span>
-              <span className="text-[#8b949e]">.</span>
-              <span className="text-[#6E9FFF]">dev</span>
-              <span className="text-[#28C840] animate-[blink_1s_step-end_infinite]">
-                _
-              </span>
-            </span>
-          </a>
-        </div>
-
-        {/* CENTER: Desktop nav links */}
-        <div className="hidden md:flex items-center gap-10 flex-1 justify-center">
-          {links.map((link) => {
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.href.replace("#", "");
             return (
               <a
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-200 cursor-pointer",
+                  "relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                   isActive
-                    ? "bg-[#28C840]/10 text-[#28C840] border border-[#28C840]/20"
-                    : "text-[#8b949e] hover:text-white hover:bg-white/5",
+                    ? "text-indigo-300"
+                    : "text-[#94a3b8] hover:text-[#f1f5f9] hover:bg-white/5"
                 )}
               >
-                <span
-                  className={cn(isActive ? "text-[#28C840]" : "text-[#6E9FFF]")}
-                >
-                  $
-                </span>
-                <span>{link.cmd}</span>
+                {link.name}
                 {isActive && (
-                  <ChevronRight size={10} className="text-[#28C840]" />
+                  <motion.span
+                    layoutId="navUnderline"
+                    className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full"
+                  />
                 )}
               </a>
             );
           })}
         </div>
 
-        {/* RIGHT: CTA + status */}
+        {/* Right CTA */}
         <div className="hidden md:flex items-center gap-3 shrink-0">
-          {/* Branch status */}
-          <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#8b949e]">
-            <GitBranch size={11} className="text-[#FEBC2E]" />
-            <span className="text-[#FEBC2E]">main</span>
-            <span className="text-[#3d3d3d] mx-0.5">·</span>
-            <span className="text-[#28C840]">✓</span>
-          </div>
-
           <a
             href="#contact"
-            className={cn(
-              "flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-mono text-xs font-bold border transition-all duration-200",
-              activeSection === "contact"
-                ? "bg-[#28C840]/20 text-[#28C840] border-[#28C840]/40"
-                : "bg-[#28C840]/10 text-[#28C840] border-[#28C840]/20 hover:bg-[#28C840]/20 hover:shadow-[0_0_14px_rgba(40,200,64,0.2)]",
-            )}
+            className="btn-primary text-sm py-2 px-5 flex items-center gap-2"
           >
-            <span>$</span>
-            <span>send_message()</span>
+            <Mail size={14} />
+            Hire Me
           </a>
         </div>
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-[#8b949e] hover:text-white transition-colors p-1"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-[#94a3b8] hover:text-white hover:bg-white/10 transition-all"
+          onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -8, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden absolute top-full left-0 right-0 bg-[#0d1117] border-b border-white/5 shadow-2xl"
+            className="md:hidden overflow-hidden bg-[#0f172a]/95 backdrop-blur-xl border-b border-indigo-500/10"
           >
-            <div className="flex items-center gap-2 px-5 py-2 bg-[#1a1a1a] border-b border-white/5">
-              <span className="w-2 h-2 rounded-full bg-[#FF5F57]" />
-              <span className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
-              <span className="w-2 h-2 rounded-full bg-[#28C840]" />
-              <span className="ml-2 text-[10px] font-mono text-[#8b949e]">
-                ~/chamara — menu
-              </span>
-            </div>
-
-            <div className="px-5 py-4 font-mono text-sm space-y-1">
-              <p className="text-[#8b949e] text-xs mb-3">
-                <span className="text-[#28C840]">$</span> ls ./navigation
-              </p>
-
-              {links.map((link, i) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-[#8b949e] hover:text-white hover:bg-white/5 transition-all group"
-                >
-                  <span className="text-[#6E9FFF] text-xs">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-[#28C840] text-xs">$</span>
-                  <span className="text-xs">{link.cmd}</span>
-                  <ChevronRight
-                    size={10}
-                    className="ml-auto opacity-0 group-hover:opacity-100 text-[#28C840] transition-opacity"
-                  />
-                </a>
-              ))}
-
-              <div className="pt-3 border-t border-white/5">
+            <div className="px-5 py-5 space-y-1">
+              {NAV_LINKS.map((link) => {
+                const isActive = activeSection === link.href.replace("#", "");
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                      isActive
+                        ? "bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
+                        : "text-[#94a3b8] hover:text-white hover:bg-white/5"
+                    )}
+                  >
+                    {link.name}
+                  </a>
+                );
+              })}
+              <div className="pt-3">
                 <a
                   href="#contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-xs font-bold font-mono
-                             bg-[#28C840]/10 text-[#28C840] border border-[#28C840]/20 hover:bg-[#28C840]/20 transition-all"
+                  onClick={() => setMobileOpen(false)}
+                  className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-3"
                 >
-                  <span>$</span>
-                  <span>send_message()</span>
+                  <Mail size={14} />
+                  Hire Me
                 </a>
-              </div>
-
-              <div className="flex items-center gap-1.5 pt-2 pb-1">
-                <span className="text-[#28C840] text-xs">›</span>
-                <span className="w-[6px] h-3 bg-[#28C840] animate-[blink_1s_step-end_infinite] inline-block" />
               </div>
             </div>
           </motion.div>
@@ -212,42 +151,61 @@ export function Navbar() {
 }
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="relative z-10 bg-[#0d1117] border-t border-white/5">
-      <div className="flex items-center gap-2 px-6 py-2 bg-[#1a1a1a] border-b border-white/5">
-        <span className="w-2 h-2 rounded-full bg-[#FF5F57]" />
-        <span className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
-        <span className="w-2 h-2 rounded-full bg-[#28C840]" />
-        <span className="ml-2 text-[10px] font-mono text-[#8b949e]">
-          ~/chamara — zsh — EOF
-        </span>
-        <span className="ml-auto flex items-center gap-1.5 text-[10px] font-mono">
-          <GitBranch size={10} className="text-[#FEBC2E]" />
-          <span className="text-[#FEBC2E]">main</span>
-        </span>
-      </div>
-      <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs">
-        <p className="text-[#8b949e]">
-          <span className="text-[#28C840]">©</span>{" "}
-          <span className="text-white">{new Date().getFullYear()}</span>{" "}
-          <span className="text-[#6E9FFF]">Chamara Pathum</span>
-          <span className="text-[#8b949e]">. All rights reserved.</span>
-        </p>
-        <div className="flex gap-4 items-center text-[#8b949e]">
-          {["github", "linkedin"].map((platform) => (
+    <footer className="relative bg-[#0f172a] border-t border-indigo-500/10">
+      {/* Top gradient line */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Brand */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-heading font-bold text-white text-sm">
+              CP
+            </div>
+            <div>
+              <p className="font-heading font-semibold text-[#f1f5f9] text-sm">
+                Chamara Pathum
+              </p>
+              <p className="text-[#64748b] text-xs mt-0.5">Full Stack Developer</p>
+            </div>
+          </div>
+
+          {/* Center copyright */}
+          <p className="text-[#64748b] text-sm">
+            © {currentYear} Chamara Pathum. All rights reserved.
+          </p>
+
+          {/* Social Links */}
+          <div className="flex items-center gap-3">
             <a
-              key={platform}
-              href={
-                platform === "github"
-                  ? PORTFOLIO_DATA.personal.socials[0].url
-                  : PORTFOLIO_DATA.personal.socials[1].url
-              }
-              className="hover:text-[#28C840] transition-colors flex items-center gap-1"
+              href={PORTFOLIO_DATA.personal.socials[0].url}
+              target="_blank"
+              rel="noreferrer"
+              className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#64748b] hover:text-white hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-all duration-200"
+              aria-label="GitHub"
             >
-              <span className="text-[#6E9FFF]">$</span>
-              <span>{platform}</span>
+              <GithubIcon size={16} />
             </a>
-          ))}
+            <a
+              href={PORTFOLIO_DATA.personal.socials[1].url}
+              target="_blank"
+              rel="noreferrer"
+              className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#64748b] hover:text-white hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-all duration-200"
+              aria-label="LinkedIn"
+            >
+              <LinkedinIcon size={16} />
+            </a>
+            <a
+              href={`mailto:${PORTFOLIO_DATA.personal.email}`}
+              className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#64748b] hover:text-white hover:bg-indigo-500/10 hover:border-indigo-500/30 transition-all duration-200"
+              aria-label="Email"
+            >
+              <Mail size={16} />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
